@@ -17,21 +17,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
-    post:
-      summary: Create a new book
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Book'
-      responses:
-        '201':
-          description: Book created successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Book'
 
   /authors:
     get:
@@ -60,17 +45,67 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Author'
+  /authors/{authorId}:
+    get:
+      description: |-
+        Retrieve information about the given Author
+      parameters:
+        - $ref: '#/components/parameters/authorId'
+      responses:
+        '201':
+          description: Data representing an Author
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+  /authors/{authorId}/books:
+    get:
+      description: |-
+        Retrieves all the books from the given author
+      parameters:
+        - $ref: '#/components/parameters/authorId'
+      responses:
+        '200':
+          description: A list of books from the author
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+    post:
+      description: |-
+        Create a new book for the given author
+      parameters:
+        - $ref: '#/components/parameters/authorId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookSubmissionData'
+      responses:
+        '201':
+          description: Book created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
 
 components:
   schemas:
     Book:
       type: object
       properties:
-        title:
-          type: string
         author:
-          $ref: '#/components/schemas/Author'
-        ISBN:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/BookSubmissionData'
+
+    BookSubmissionData:
+      type: object
+      properties:
+        title:
           type: string
         publicationDate:
           type: string
@@ -78,11 +113,12 @@ components:
         genre:
           type: array
           items:
-            $ref: '#/components/schemas/Genre'
+            type: string
         description:
           type: string
         coverImageURL:
           type: string
+          format: url
         numberOfPages:
           type: integer
 
@@ -104,3 +140,13 @@ components:
       properties:
         name:
           type: string
+
+  parameters:
+    authorId:
+      name: authorId
+      in: path
+      description: The identifier for a given Author
+      required: true
+      schema:
+        type: integer
+        example: 34
