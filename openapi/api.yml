@@ -2,95 +2,134 @@ openapi: 3.0.3
 info:
   title: Bookstore API
   version: 1.0.0
-  description: An API for managing books, authors, and genres in a bookstore.
+  description: An API for managing books and authors in a bookstore.
 
 paths:
   /books:
     get:
+      tags:
+        - books
       summary: Get a list of books
+      parameters:
+        - name: genre
+          in: query
+          description: Filters books of the given genre
+          required: false
+          schema:
+            type: string
+            example: science fiction
       responses:
-        '200':
+        "200":
           description: A list of books
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Book'
+                  $ref: "#/components/schemas/Book"
+
+  /books/{bookId}:
+    get:
+      tags:
+        - books
+      summary: Get a book
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          description: An identifier of a book
+          schema:
+            type: integer
+            example: 25
+      responses:
+        "200":
+          description: Information about a book
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
 
   /authors:
     get:
+      tags:
+        - authors
       summary: Get a list of authors
       responses:
-        '200':
+        "200":
           description: A list of authors
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Author'
+                  $ref: "#/components/schemas/Author"
     post:
+      tags:
+        - authors
       summary: Create a new author
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Author'
+              $ref: "#/components/schemas/Author"
       responses:
-        '201':
+        "201":
           description: Author created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Author'
+                $ref: "#/components/schemas/Author"
+
   /authors/{authorId}:
     get:
-      description: |-
-        Retrieve information about the given Author
+      tags:
+        - authors
+      summary: Retrieve information an Author
       parameters:
-        - $ref: '#/components/parameters/authorId'
+        - $ref: "#/components/parameters/authorId"
       responses:
-        '201':
+        "201":
           description: Data representing an Author
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Author'
+                $ref: "#/components/schemas/Author"
   /authors/{authorId}/books:
     get:
-      description: |-
-        Retrieves all the books from the given author
+      tags:
+        - books
+      summary: Retrieves all the books from the given author
       parameters:
-        - $ref: '#/components/parameters/authorId'
+        - $ref: "#/components/parameters/authorId"
       responses:
-        '200':
+        "200":
           description: A list of books from the author
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Book'
+                  $ref: "#/components/schemas/Book"
     post:
-      description: |-
-        Create a new book for the given author
+      tags:
+        - books
+      summary: Create a new book for the given author
       parameters:
-        - $ref: '#/components/parameters/authorId'
+        - $ref: "#/components/parameters/authorId"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BookSubmissionData'
+              $ref: "#/components/schemas/BookSubmissionData"
       responses:
-        '201':
+        "201":
           description: Book created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Book'
+                $ref: "#/components/schemas/Book"
 
 components:
   schemas:
@@ -100,7 +139,7 @@ components:
         author:
           type: string
       allOf:
-        - $ref: '#/components/schemas/BookSubmissionData'
+        - $ref: "#/components/schemas/BookSubmissionData"
 
     BookSubmissionData:
       type: object
@@ -121,6 +160,10 @@ components:
           format: url
         numberOfPages:
           type: integer
+      required:
+        - title
+        - publicationDate
+        - genre
 
     Author:
       type: object
@@ -134,12 +177,8 @@ components:
           type: string
         biography:
           type: string
-
-    Genre:
-      type: object
-      properties:
-        name:
-          type: string
+      required:
+        - name
 
   parameters:
     authorId:
