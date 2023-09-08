@@ -45,8 +45,8 @@ openApiGenerate {
 	inputSpec = "$rootDir/openapi/api.yml"
 	generatorName = "spring"
 	library = "spring-boot"
-	apiPackage = "com.denisjulio.bookstoreapi.api"
-	modelPackage = "com.denisjulio.bookstoreapi.model"
+	apiPackage = "denisjulio.bookstoreapi.api"
+	modelPackage = "denisjulio.bookstoreapi.model"
 	modelNameSuffix = "Dto"
 	configOptions.set([
 			interfaceOnly: "true",
