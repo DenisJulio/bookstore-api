@@ -7,3 +7,25 @@ services:
       - 'POSTGRES_USER=user'
     ports:
       - '5432'
+    networks:
+      - bookstore-api-net
+
+  pgadmin:
+    image: dpage/pgadmin4:7
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@example.com
+      PGADMIN_DEFAULT_PASSWORD: p4ssw0rd
+    volumes:
+      - pgadmin-vol:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - bookstore-api-net
+    restart: unless-stopped
+
+networks:
+  bookstore-api-net:
+    driver: bridge
+
+volumes:
+  pgadmin-vol:
