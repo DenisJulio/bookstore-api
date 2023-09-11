@@ -27,10 +27,37 @@ class BooksControllerTest {
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15");
 
     @Test
-    public void getAllBooks() throws Exception {
+    public void getAllBooksMustReturnEmpty() throws Exception {
         this.mockMvc.perform(get("/books"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isEmpty())
-                .andReturn().getResponse();
+                .andExpect(jsonPath("$").isEmpty());
+    }
+
+    @Test
+    public void getBooksByGenreShouldReturnFilteredBooks() throws Exception {
+        String genre = "science fiction";
+
+        this.mockMvc.perform(get("/books").param("genre", genre))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].genre[0]").value(genre)); // Assuming the first book's genre is "science fiction"
+    }
+
+    @Test
+    public void getBookByIdShouldReturnCorrectBook() throws Exception {
+        // Assuming there is a book with ID 25 in the database
+        int bookId = 25;
+
+        this.mockMvc.perform(get("/books/{bookId}", bookId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.author").exists()); // Add more assertions as needed
+    }
+
+
+    @Test
+    public void getBookByInvalidIdShouldReturn404() throws Exception {
+        int invalidBookId = 999; // Assuming there's no book with ID 999
+
+        this.mockMvc.perform(get("/books/{bookId}", invalidBookId))
+                .andExpect(status().isNotFound());
     }
 }

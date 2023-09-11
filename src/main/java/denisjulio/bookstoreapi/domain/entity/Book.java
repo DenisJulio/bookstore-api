@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.net.URL;
@@ -14,7 +15,8 @@ import java.util.Set;
 
 @Getter
 @Setter
-@Entity
+@NoArgsConstructor
+@Entity(name = "Book")
 @Table(name = "books")
 public class Book {
 
@@ -29,6 +31,7 @@ public class Book {
     private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
     private Author author;
 
     @Column(name = "publication_date")
