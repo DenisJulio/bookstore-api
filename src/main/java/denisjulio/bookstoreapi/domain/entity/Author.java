@@ -12,9 +12,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@Getter
-@Setter
 @NoArgsConstructor
+@Getter
 @Entity(name = "Author")
 @Table(name = "authors")
 public class Author {
@@ -52,6 +51,31 @@ public class Author {
     public void addBook(Book book) {
         this.books.add(book);
         book.setAuthor(this);
+    }
+
+    public Author setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Author setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+        return this;
+    }
+
+    public Author setCountryName(String countryName) {
+        this.countryName = countryName;
+        return this;
+    }
+
+    public Author setBiography(String biography) {
+        this.biography = biography;
+        return this;
+    }
+
+    public Author setBooks(Set<Book> books) {
+        this.books = books;
+        return this;
     }
 
     public void removeBook(Book book) {
