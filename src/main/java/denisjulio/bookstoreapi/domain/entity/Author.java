@@ -45,6 +45,10 @@ public class Author {
             orphanRemoval = true)
     private Set<Book> books = new HashSet<>();
 
+    public Author(String name) {
+        this.name = name;
+    }
+
     public void addBook(Book book) {
         this.books.add(book);
         book.setAuthor(this);
