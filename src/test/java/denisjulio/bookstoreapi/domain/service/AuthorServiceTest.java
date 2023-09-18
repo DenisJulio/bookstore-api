@@ -1,6 +1,8 @@
 package denisjulio.bookstoreapi.domain.service;
 
 import denisjulio.bookstoreapi.common.AbstractIntegrationTest;
+import denisjulio.bookstoreapi.domain.entity.Author;
+import denisjulio.bookstoreapi.domain.repository.AuthorRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,9 @@ class AuthorServiceTest extends AbstractIntegrationTest {
 
   @Autowired
   private AuthorService authorService;
+
+  @Autowired
+  private AuthorRepository authorRepository;
 
   @DynamicPropertySource
   static void overrideProperties(DynamicPropertyRegistry registry) {
@@ -31,8 +36,24 @@ class AuthorServiceTest extends AbstractIntegrationTest {
   @Test
   void whenGetAuthorByIdThenReturnCorrectAuthor() {
     log.debug("test whenGetAuthorByIdThenReturnCorrectAuthor");
-    var author = authorService.getAuthorById(3);
-    assertThat(author.isPresent()).isTrue();
-    assertThat(author.get().getName()).isEqualTo("Author 3");
+    var authorList = authorRepository.findAll();
+    var lastAuthor = authorList.get(2);
+    var authorOpt = authorService.getAuthorById(lastAuthor.getId());
+    assertThat(authorOpt.isPresent()).isTrue();
+    var author = authorOpt.get();
+    assertThat(author).isEqualTo(lastAuthor);
+    assertThat(author.getName()).isEqualTo("Author 3");
+  }
+
+  @Test
+  void whenSaveAuthorThenItIsStoredInTheDatabase() {
+    log.debug("test whenSaveAuthorThenItIsStoredInTheDatabase");
+    var newAuthor = new Author("Author 4")
+            .setCountryName("France");
+    authorService.save(newAuthor);
+    var authorsList = authorRepository.findAll();
+    assertThat(authorsList).hasSize(4);
+    var lastAuthor = authorsList.get(3).getName();
+    assertThat(lastAuthor).isEqualTo("Author 4");
   }
 }
