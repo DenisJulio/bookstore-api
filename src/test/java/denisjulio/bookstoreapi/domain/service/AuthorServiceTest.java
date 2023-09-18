@@ -36,9 +36,12 @@ class AuthorServiceTest extends AbstractIntegrationTest {
   @Test
   void whenGetAuthorByIdThenReturnCorrectAuthor() {
     log.debug("test whenGetAuthorByIdThenReturnCorrectAuthor");
+    // given
     var authorsList = authorRepository.findAll();
     var lastAuthor = authorsList.get(authorsList.size() - 1);
+    // when
     var authorOpt = authorService.getAuthorById(lastAuthor.getId());
+    // then
     assertThat(authorOpt.isPresent()).isTrue();
     var author = authorOpt.get();
     assertThat(author).isEqualTo(lastAuthor);
@@ -48,21 +51,27 @@ class AuthorServiceTest extends AbstractIntegrationTest {
   @Test
   void whenSaveAuthorThenItIsStoredInTheDatabase() {
     log.debug("test whenSaveAuthorThenItIsStoredInTheDatabase");
+    // given
     var newAuthor = new Author("Author 4")
             .setCountryName("France");
+    // when
     authorService.save(newAuthor);
+    // then
     var authorsList = authorRepository.findAll();
     assertThat(authorsList).hasSize(4);
-    var lastAuthor = authorsList.get(3).getName();
-    assertThat(lastAuthor).isEqualTo("Author 4");
+    var lastAuthorName = authorsList.get(authorsList.size() - 1).getName();
+    assertThat(lastAuthorName).isEqualTo("Author 4");
   }
 
   @Test
   void whenDeleteAuthorByIdThenAuthorIsRemovedFromDatabase() {
     log.debug("test whenDeleteAuthorByIdThenAuthorIsRemovedFromDatabase");
+    // given
     var authorsList = authorRepository.findAll();
     var lastAuthor = authorsList.get(authorsList.size() - 1);
+    // when
     authorService.deleteAuthorById(lastAuthor.getId());
+    // then
     assertThat(authorRepository.findAll()).hasSize(authorsList.size() - 1);
   }
 }
