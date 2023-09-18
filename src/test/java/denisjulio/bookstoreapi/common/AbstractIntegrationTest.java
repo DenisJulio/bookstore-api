@@ -2,7 +2,9 @@ package denisjulio.bookstoreapi.common;
 
 import denisjulio.bookstoreapi.domain.entity.Author;
 import denisjulio.bookstoreapi.domain.repository.AuthorRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import java.time.LocalDate;
 import java.util.List;
 
+@Slf4j
 @SpringBootTest
 public abstract class AbstractIntegrationTest {
 
@@ -23,8 +26,14 @@ public abstract class AbstractIntegrationTest {
 
   @BeforeEach
   void baseSetUp() {
-    authorRepository.deleteAll();
+    log.debug("Populating repository with sample data.");
     authorRepository.saveAll(sampleAuthors());
+  }
+
+  @AfterEach
+  void baseTearDown() {
+    log.debug("Dropping repository data");
+    authorRepository.deleteAllInBatch();
   }
 
   private List<Author> sampleAuthors() {
