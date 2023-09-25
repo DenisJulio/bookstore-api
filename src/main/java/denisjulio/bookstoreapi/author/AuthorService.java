@@ -1,7 +1,7 @@
-package denisjulio.bookstoreapi.domain.service;
+package denisjulio.bookstoreapi.author;
 
-import denisjulio.bookstoreapi.domain.entity.Author;
-import denisjulio.bookstoreapi.domain.repository.AuthorRepository;
+import denisjulio.bookstoreapi.author.Author;
+import denisjulio.bookstoreapi.author.AuthorRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

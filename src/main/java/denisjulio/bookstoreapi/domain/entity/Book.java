@@ -1,5 +1,6 @@
 package denisjulio.bookstoreapi.domain.entity;
 
+import denisjulio.bookstoreapi.author.Author;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -31,7 +32,7 @@ public class Book {
     private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id")
+    @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 
     @Column(name = "publication_date")

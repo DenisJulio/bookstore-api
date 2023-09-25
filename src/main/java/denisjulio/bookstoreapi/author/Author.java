@@ -1,11 +1,11 @@
-package denisjulio.bookstoreapi.domain.entity;
+package denisjulio.bookstoreapi.author;
 
+import denisjulio.bookstoreapi.domain.entity.Book;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.HashSet;

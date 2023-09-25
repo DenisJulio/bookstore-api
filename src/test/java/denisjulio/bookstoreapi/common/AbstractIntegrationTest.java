@@ -1,7 +1,7 @@
 package denisjulio.bookstoreapi.common;
 
-import denisjulio.bookstoreapi.domain.entity.Author;
-import denisjulio.bookstoreapi.domain.repository.AuthorRepository;
+import denisjulio.bookstoreapi.author.Author;
+import denisjulio.bookstoreapi.author.AuthorRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
