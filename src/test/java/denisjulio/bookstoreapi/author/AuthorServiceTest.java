@@ -30,7 +30,6 @@ class AuthorServiceTest extends AbstractIntegrationTest {
   public void whenGetAuthorsThenReturnCorrectAmount() {
     log.debug("test whenGetAuthorsThenReturnCorrectAmount");
     var authorsList = authorService.getAuthors();
-    assertThat(authorsList).isNotEmpty();
     assertThat(authorsList).hasSize(3);
   }
 
@@ -43,7 +42,7 @@ class AuthorServiceTest extends AbstractIntegrationTest {
     // when
     var authorOpt = authorService.getAuthorById(lastAuthor.getId());
     // then
-    assertThat(authorOpt.isPresent()).isTrue();
+    assertThat(authorOpt).isPresent();
     var author = authorOpt.get();
     assertThat(author).isEqualTo(lastAuthor);
     assertThat(author.getName()).isEqualTo("Author 3");
