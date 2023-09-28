@@ -1,30 +1,34 @@
 package denisjulio.bookstoreapi.author;
 
-import denisjulio.bookstoreapi.author.AuthorService;
-import denisjulio.bookstoreapi.common.AbstractIntegrationTest;
-import denisjulio.bookstoreapi.author.Author;
-import denisjulio.bookstoreapi.author.AuthorRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.context.annotation.Import;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
-class AuthorServiceTest extends AbstractIntegrationTest {
+@DataJpaTest
+@Testcontainers
+@Import(AuthorService.class)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+class AuthorServiceTest {
+
+  @Container
+  @ServiceConnection
+  private final static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15");
 
   @Autowired
   private AuthorService authorService;
 
   @Autowired
   private AuthorRepository authorRepository;
-
-  @DynamicPropertySource
-  static void overrideProperties(DynamicPropertyRegistry registry) {
-    overridePropertiesInternal(registry);
-  }
 
   @Test
   public void whenGetAuthorsThenReturnCorrectAmount() {
