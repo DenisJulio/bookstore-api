@@ -4,16 +4,12 @@ import denisjulio.bookstoreapi.domain.entity.Book;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@NoArgsConstructor
-@Getter
 @Entity(name = "Author")
 @Table(name = "authors")
 public class Author {
@@ -44,13 +40,18 @@ public class Author {
             orphanRemoval = true)
     private Set<Book> books = new HashSet<>();
 
+    public Author() {}
+
     public Author(String name) {
         this.name = name;
     }
 
-    public void addBook(Book book) {
-        this.books.add(book);
-        book.setAuthor(this);
+    public Integer getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Author setName(String name) {
@@ -58,9 +59,17 @@ public class Author {
         return this;
     }
 
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
     public Author setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
         return this;
+    }
+
+    public String getCountryName() {
+        return countryName;
     }
 
     public Author setCountryName(String countryName) {
@@ -68,14 +77,27 @@ public class Author {
         return this;
     }
 
+    public String getBiography() {
+        return biography;
+    }
+
     public Author setBiography(String biography) {
         this.biography = biography;
         return this;
     }
 
+    public Set<Book> getBooks() {
+        return books;
+    }
+
     public Author setBooks(Set<Book> books) {
         this.books = books;
         return this;
+    }
+
+    public void addBook(Book book) {
+        this.books.add(book);
+        book.setAuthor(this);
     }
 
     public void removeBook(Book book) {

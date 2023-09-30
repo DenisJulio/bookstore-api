@@ -12,6 +12,12 @@ java {
 	sourceCompatibility = '17'
 }
 
+compileJava {
+	options.compilerArgs += [
+	        "-Amapstruct.defaultComponentModel=spring"
+	]
+}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -27,7 +33,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
-
+	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
 
 	implementation 'org.openapitools:jackson-databind-nullable:0.2.6'
 	implementation 'io.swagger.core.v3:swagger-annotations-jakarta:2.2.15'
@@ -35,11 +41,17 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql'
 
 	compileOnly 'org.projectlombok:lombok'
+
 	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 	annotationProcessor 'org.projectlombok:lombok'
+
 	testCompileOnly 'org.projectlombok:lombok'
+
 	testAnnotationProcessor 'org.projectlombok:lombok'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
 	testImplementation 'org.testcontainers:junit-jupiter'
@@ -57,7 +69,6 @@ openApiGenerate {
 			interfaceOnly: "true",
 			dateLibrary: "java8",
 			useSpringBoot3: "true",
-			hateoas: "true",
 			performBeanValidation: "true",
 			delegatePattern: "true"
 	])

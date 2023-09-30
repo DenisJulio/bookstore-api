@@ -31,7 +31,7 @@ class AuthorServiceTest {
   private AuthorRepository authorRepository;
 
   @Test
-  public void whenGetAuthorsThenReturnCorrectAmount() {
+  void whenGetAuthorsThenReturnCorrectAmount() {
     log.debug("test whenGetAuthorsThenReturnCorrectAmount");
     var authorsList = authorService.getAuthors();
     assertThat(authorsList).hasSize(3);

@@ -175,12 +175,13 @@ components:
     Author:
       type: object
       properties:
+        id:
+          type: string
         name:
           type: string
-        birthDate:
+        birth_date:
           type: string
-          format: date
-        nationality:
+        country_name:
           type: string
         biography:
           type: string
