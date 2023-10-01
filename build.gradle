@@ -64,6 +64,8 @@ openApiGenerate {
 	library = "spring-boot"
 	apiPackage = "denisjulio.bookstoreapi.api"
 	modelPackage = "denisjulio.bookstoreapi.model"
+	schemaMappings.put("ProblemDetail", "ProblemDetail")
+	importMappings.put("ProblemDetail", "org.springframework.http.ProblemDetail")
 	modelNameSuffix = "Dto"
 	configOptions.set([
 			interfaceOnly: "true",
