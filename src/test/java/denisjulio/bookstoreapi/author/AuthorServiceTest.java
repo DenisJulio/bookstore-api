@@ -59,12 +59,13 @@ class AuthorServiceTest {
     var newAuthor = new Author("Author 4")
             .setCountryName("France");
     // when
-    authorService.save(newAuthor);
+    var savedAuthor = authorService.save(newAuthor);
     // then
     var authorsList = authorRepository.findAll();
     assertThat(authorsList).hasSize(4);
-    var lastAuthorName = authorsList.get(authorsList.size() - 1).getName();
-    assertThat(lastAuthorName).isEqualTo("Author 4");
+    var lastAuthor = authorsList.get(authorsList.size() - 1);
+    assertThat(lastAuthor.getId()).isEqualTo(savedAuthor.getId());
+    assertThat(lastAuthor.getName()).isEqualTo(savedAuthor.getName());
   }
 
   @Test
