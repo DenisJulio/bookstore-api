@@ -1,5 +1,6 @@
 package denisjulio.bookstoreapi.author;
 
+import jakarta.annotation.Resource;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -31,6 +32,9 @@ class AuthorControllerTest {
   @Autowired
   private MockMvc mvc;
 
+  @Resource(name = "authorsJson")
+  private JSONArray authorsJson;
+
   @Test
   void whenGetAuthorsThenReturnListOfAuthors() throws Exception {
     var res = mvc.perform(get("/authors"))
@@ -43,14 +47,7 @@ class AuthorControllerTest {
             .getResponse()
             .getContentAsString();
     var firstAuthorJsonRes = (JSONObject) new JSONArray(res).get(0);
-    var expected = """
-            {
-              name: "Author 1",
-              birth_date: "1990-05-15",
-              country_name: "USA",
-              biography: "Author 1 biography"
-            }
-            """;
-    JSONAssert.assertEquals(expected, firstAuthorJsonRes, JSONCompareMode.LENIENT);
+    var expectedAuthorJson = (JSONObject) authorsJson.get(0);
+    JSONAssert.assertEquals(expectedAuthorJson, firstAuthorJsonRes, JSONCompareMode.LENIENT);
   }
 }
