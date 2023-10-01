@@ -24,4 +24,12 @@ public class AuthorController implements AuthorsApi {
     var authorsDto = authorMapper.authorsToAuthorsDto(authors);
     return ResponseEntity.ok(authorsDto);
   }
+
+  @Override
+  public ResponseEntity<AuthorDto> getAuthorById(Integer authorId) {
+    return authorService.getAuthorById(authorId)
+            .map(authorMapper::authorToAuthorDto)
+            .map(ResponseEntity::ok)
+            .orElseThrow(AuthorNotFoundException::new);
+  }
 }
