@@ -76,7 +76,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Author"
+              $ref: "#/components/schemas/AuthorSubmissionData"
       responses:
         "201":
           description: Author created successfully
@@ -84,6 +84,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Author"
+        "422":
+          description: Invalid Author data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
 
   /authors/{authorId}:
     get:
@@ -183,6 +189,12 @@ components:
       properties:
         id:
           type: string
+      allOf:
+        - $ref: '#/components/schemas/AuthorSubmissionData'
+
+    AuthorSubmissionData:
+      type: object
+      properties:
         name:
           type: string
         birth_date:

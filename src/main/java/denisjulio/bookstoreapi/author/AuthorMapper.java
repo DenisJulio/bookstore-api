@@ -16,4 +16,6 @@ public interface AuthorMapper {
   AuthorDto authorToAuthorDto(Author author);
 
   List<AuthorDto> authorsToAuthorsDto(List<Author> authors);
+
+  Author toAuthor(AuthorSubmissionData authorSubmissionData);
 }
