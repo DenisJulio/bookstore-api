@@ -2,6 +2,7 @@ package denisjulio.bookstoreapi.author;
 
 import denisjulio.bookstoreapi.model.AuthorDto;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Component;
 
@@ -17,5 +18,6 @@ public interface AuthorMapper {
 
   List<AuthorDto> authorsToAuthorsDto(List<Author> authors);
 
+  @Mapping(target = "books", ignore = true)
   Author toAuthor(AuthorSubmissionData authorSubmissionData);
 }

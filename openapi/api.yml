@@ -197,9 +197,9 @@ components:
       properties:
         name:
           type: string
-        birth_date:
+        birthDate:
           type: string
-        country_name:
+        countryName:
           type: string
         biography:
           type: string

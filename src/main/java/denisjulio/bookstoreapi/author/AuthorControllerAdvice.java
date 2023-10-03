@@ -34,12 +34,11 @@ public class AuthorControllerAdvice {
   @ExceptionHandler
   ResponseEntity<ProblemDetail> handleAuthorSubmissionDataNotValid(MethodArgumentNotValidException ex) {
     var problem = ObjectValidationProblemDetail.forStatus(422);
-    if (ex.hasFieldErrors())
-      ex.getFieldErrors()
-              .forEach(fe -> {
-                var message = msg.getMessage(requireNonNull(fe.getDefaultMessage()), null, Locale.getDefault());
-                problem.addValidationError(fe.getField(), message);
-              });
+    ex.getFieldErrors()
+            .forEach(fe -> {
+              var reason = msg.getMessage(requireNonNull(fe.getDefaultMessage()), null, Locale.getDefault());
+              problem.addValidationError(fe.getField(), reason);
+            });
     return ResponseEntity.of(problem).build();
   }
 }

@@ -1,7 +1,7 @@
 package denisjulio.bookstoreapi.author;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.Resource;
+import jakarta.persistence.EntityManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +18,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -39,7 +40,7 @@ class AuthorControllerTest {
   private JSONArray authorsJson;
 
   @Autowired
-  private ObjectMapper mapper;
+  private EntityManager entityManager;
 
   @Test
   void whenGetAuthorsThenReturnListOfAuthors() throws Exception {
@@ -79,8 +80,8 @@ class AuthorControllerTest {
             .andReturn().getResponse().getContentAsString();
     var json = """
             {
-              title: "Author not found",
-              detail: "Could not find an Author with the given 'id'"
+              "title": "Author not found",
+              "detail": "Could not find an Author with the given 'id'"
             }
             """;
     var jsonRes = new JSONObject(res);
@@ -95,11 +96,34 @@ class AuthorControllerTest {
             .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON));
   }
 
-  //  TODO:
-  // Given POST /authors
-  //  When create a new author properly
-  //  Then the response is as expected status 201
-  //    and the database reflects the new state
+  @Test
+  @DisplayName("When postNewAuthor properly, Then returns Created and database reflects insertion")
+  void whenPostNewAuthorThenReturnCreated() throws Exception {
+    // given
+    var countQuery = "SELECT COUNT(a) FROM Author a";
+    var initialCount = (long) entityManager.createQuery(countQuery).getSingleResult();
+    var newAuthor = """
+            {
+              "name": "Author 4",
+              "birthDate": "1969-12-15",
+              "countryName": "Germany",
+              "biography": "Author 4 short biography"
+            }
+            """;
+    // when
+    var res = mvc.perform(post("/authors")
+                    .content(newAuthor)
+                    .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isCreated())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.id").exists())
+            .andReturn().getResponse().getContentAsString();
+    // then
+    var jsonRes = new JSONObject(res);
+    JSONAssert.assertEquals(newAuthor, jsonRes, JSONCompareMode.LENIENT);
+    var countAfterInsertion = (long) entityManager.createQuery(countQuery).getSingleResult();
+    assertThat(initialCount).isLessThan(countAfterInsertion);
+  }
 
   @Test
   @DisplayName("When postNewAuthor missing the request body, Then return Bad Request")
@@ -110,9 +134,9 @@ class AuthorControllerTest {
             .andReturn().getResponse().getContentAsString();
     var json = """
             {
-              title: "Bad Request",
-              status: 400,
-              detail: "The request could not be understood or was missing required parameters."
+              "title": "Bad Request",
+              "status": 400,
+              "detail": "The request could not be understood or was missing required parameters."
             }
             """;
     var jsonRes = new JSONObject(res);
@@ -124,12 +148,12 @@ class AuthorControllerTest {
   void whenPostNewAuthorThenReturnValidationError() throws Exception {
     var invalidAuthor = """
             {
-              "birth_date": "22/12/1993"
+              "birthDate": "22/12/1993"
             }
             """;
     var res = mvc.perform(post("/authors")
-            .content(invalidAuthor)
-            .contentType(MediaType.APPLICATION_JSON))
+                    .content(invalidAuthor)
+                    .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isUnprocessableEntity())
             .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON))
             .andExpect(jsonPath("$.type").value(not(blankOrNullString())))

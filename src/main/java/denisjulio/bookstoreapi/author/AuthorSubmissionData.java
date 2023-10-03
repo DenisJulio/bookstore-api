@@ -13,11 +13,11 @@ public class AuthorSubmissionData {
   private String name;
 
   @DateString(message = "invalid.dateString.authorSubmissionData")
-  @JsonProperty("birth_date")
+  @JsonProperty("birthDate")
   private String birthDate;
 
   @Size(max = 255)
-  @JsonProperty("country_name")
+  @JsonProperty("countryName")
   private String countryName;
 
   @JsonProperty("biography")
