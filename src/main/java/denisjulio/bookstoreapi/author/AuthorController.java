@@ -32,4 +32,12 @@ public class AuthorController implements AuthorsApi {
             .map(ResponseEntity::ok)
             .orElseThrow(AuthorNotFoundException::new);
   }
+
+  @Override
+  public ResponseEntity<AuthorDto> postNewAuthor(AuthorSubmissionData authorSubmissionData) {
+    var author = authorMapper.toAuthor(authorSubmissionData);
+    var savedAuthor = authorService.save(author);
+    return ResponseEntity.status(201)
+            .body(authorMapper.authorToAuthorDto(savedAuthor));
+  }
 }

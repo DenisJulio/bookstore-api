@@ -7,12 +7,12 @@ import jakarta.validation.constraints.Size;
 
 public class AuthorSubmissionData {
 
-  @NotNull
+  @NotNull(message = "invalid.name.authorSubmissionData")
   @Size(max = 255)
   @JsonProperty("name")
   private String name;
 
-  @DateString
+  @DateString(message = "invalid.dateString.authorSubmissionData")
   @JsonProperty("birth_date")
   private String birthDate;
 

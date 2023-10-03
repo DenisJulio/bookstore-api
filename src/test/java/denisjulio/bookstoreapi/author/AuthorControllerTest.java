@@ -1,5 +1,6 @@
 package denisjulio.bookstoreapi.author;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.Resource;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,6 +20,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -35,6 +37,9 @@ class AuthorControllerTest {
 
   @Resource(name = "authorsJson")
   private JSONArray authorsJson;
+
+  @Autowired
+  private ObjectMapper mapper;
 
   @Test
   void whenGetAuthorsThenReturnListOfAuthors() throws Exception {
@@ -75,7 +80,7 @@ class AuthorControllerTest {
     var json = """
             {
               title: "Author not found",
-                detail: "Could not find an Author with the given 'id'"
+              detail: "Could not find an Author with the given 'id'"
             }
             """;
     var jsonRes = new JSONObject(res);
@@ -88,5 +93,68 @@ class AuthorControllerTest {
     mvc.perform(get("/authors/{id}", "author1"))
             .andExpect(status().isBadRequest())
             .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON));
+  }
+
+  //  TODO:
+  // Given POST /authors
+  //  When create a new author properly
+  //  Then the response is as expected status 201
+  //    and the database reflects the new state
+
+  @Test
+  @DisplayName("When postNewAuthor missing the request body, Then return Bad Request")
+  void whenPostNewAuthorThenReturnBadRequest() throws Exception {
+    var res = mvc.perform(post("/authors"))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON))
+            .andReturn().getResponse().getContentAsString();
+    var json = """
+            {
+              title: "Bad Request",
+              status: 400,
+              detail: "The request could not be understood or was missing required parameters."
+            }
+            """;
+    var jsonRes = new JSONObject(res);
+    JSONAssert.assertEquals(json, jsonRes, JSONCompareMode.LENIENT);
+  }
+
+  @Test
+  @DisplayName("When postNewAuthor with invalid request body, Then return Validation Error")
+  void whenPostNewAuthorThenReturnValidationError() throws Exception {
+    var invalidAuthor = """
+            {
+              "birth_date": "22/12/1993"
+            }
+            """;
+    var res = mvc.perform(post("/authors")
+            .content(invalidAuthor)
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isUnprocessableEntity())
+            .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON))
+            .andExpect(jsonPath("$.type").value(not(blankOrNullString())))
+            .andExpect(jsonPath("$.instance").value(not(blankOrNullString())))
+            .andExpect(jsonPath("$.validationErrors").isArray())
+            .andExpect(jsonPath("$.validationErrors", hasSize(2)))
+            .andReturn().getResponse().getContentAsString();
+    var problemDetailJson = """
+            {
+              "title": "Validation Error",
+              "status": 422,
+              "detail": "One or more fields in the request body failed validation.",
+              "validationErrors": [
+                {
+                  "field": "name",
+                  "reason": "'name' is required, it can not be null or blank."
+                },
+                {
+                  "field": "birthDate",
+                  "reason": "'birthDate' must be in the format 'yyyy-mm-dd'."
+                }
+              ]
+            }
+            """;
+    var jsonRes = new JSONObject(res);
+    JSONAssert.assertEquals(problemDetailJson, jsonRes, JSONCompareMode.LENIENT);
   }
 }

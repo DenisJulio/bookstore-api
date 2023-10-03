@@ -29,5 +29,6 @@ public class ObjectValidationProblemDetail extends ProblemDetail {
     this.validationErrors.add(valErr);
   }
 
-  public record ValidationError(String field, String reason) {}
+  public record ValidationError(String field, String reason) {
+  }
 }
