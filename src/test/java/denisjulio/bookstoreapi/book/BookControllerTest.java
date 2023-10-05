@@ -59,4 +59,17 @@ class BookControllerTest {
     var lastBookResJson = (JSONObject) new JSONArray(res).get(4);
     JSONAssert.assertEquals(lastBookJson, lastBookResJson, JSONCompareMode.STRICT);
   }
+
+  @Test
+  void whenGetBooksFilteredByGenreThenReturnAListOfFilteredBooks() throws Exception {
+    var res = mvc.perform(get("/books").queryParam("genre", "Genre 1"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$.length()").value(3))
+            .andReturn().getResponse().getContentAsString();
+    var lastBookJson = (JSONObject) booksJson.get(4);
+    var lastBookResJson = (JSONObject) new JSONArray(res).get(2);
+    JSONAssert.assertEquals(lastBookJson, lastBookResJson, JSONCompareMode.STRICT);
+  }
 }
