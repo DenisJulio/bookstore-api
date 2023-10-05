@@ -1,7 +1,7 @@
 package denisjulio.bookstoreapi.book;
 
 import denisjulio.bookstoreapi.author.Author;
-import denisjulio.bookstoreapi.domain.entity.Genre;
+import denisjulio.bookstoreapi.genre.Genre;
 import denisjulio.bookstoreapi.model.BookDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
