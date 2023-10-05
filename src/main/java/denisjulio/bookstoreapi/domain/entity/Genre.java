@@ -1,9 +1,8 @@
 package denisjulio.bookstoreapi.domain.entity;
 
-import denisjulio.bookstoreapi.domain.entity.Book;
+import denisjulio.bookstoreapi.book.Book;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

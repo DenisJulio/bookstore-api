@@ -155,8 +155,10 @@ components:
     Book:
       type: object
       properties:
-        author:
-          type: string
+        id:
+          type: integer
+        authorId:
+          type: integer
       allOf:
         - $ref: "#/components/schemas/BookSubmissionData"
 
@@ -174,7 +176,7 @@ components:
             type: string
         description:
           type: string
-        coverImageURL:
+        coverImageUrl:
           type: string
           format: url
         numberOfPages:

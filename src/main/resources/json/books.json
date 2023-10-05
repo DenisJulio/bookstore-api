@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "title": "Book 1 by Author 1",
+    "authorId": 1,
+    "publicationDate": "2022-01-15",
+    "description": "Description of Book 1",
+    "coverImageUrl": "https://bookcovers.com/cover1.jpg",
+    "numberOfPages": 300,
+    "genre": [
+      "Genre 1"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Book 2 by Author 1",
+    "authorId": 1,
+    "publicationDate": "2020-06-30",
+    "description": "Description of Book 2",
+    "coverImageUrl": "https://bookcovers.com/cover2.jpg",
+    "numberOfPages": 250,
+    "genre": [
+      "Genre 2"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Book 1 by Author 2",
+    "authorId": 2,
+    "publicationDate": "2019-03-25",
+    "description": "Description of Book 3",
+    "coverImageUrl": "https://bookcovers.com/cover3.jpg",
+    "numberOfPages": 400,
+    "genre": [
+      "Genre 1"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Book 2 by Author 2",
+    "authorId": 2,
+    "publicationDate": "2018-11-10",
+    "description": "Description of Book 4",
+    "coverImageUrl": "https://bookcovers.com/cover4.jpg",
+    "numberOfPages": 350,
+    "genre": [
+      "Genre 2"
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Book by Author 3",
+    "authorId": 3,
+    "publicationDate": "2021-09-05",
+    "description": "Description of Book 5",
+    "coverImageUrl": "https://bookcovers.com/cover5.jpg",
+    "numberOfPages": 500,
+    "genre": [
+      "Genre 1"
+    ]
+  }
+]

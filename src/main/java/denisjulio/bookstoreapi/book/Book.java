@@ -1,6 +1,7 @@
-package denisjulio.bookstoreapi.domain.entity;
+package denisjulio.bookstoreapi.book;
 
 import denisjulio.bookstoreapi.author.Author;
+import denisjulio.bookstoreapi.domain.entity.Genre;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
