@@ -20,6 +20,11 @@ public class BookController implements BooksApi {
 
   @Override
   public ResponseEntity<List<BookDto>> getBooks(String genre) {
+    if (genre != null) {
+      var books = booksRepository.findBooksByGenresName(genre);
+      var booksDto = bookMapper.toBooksDto(books);
+      return ResponseEntity.ok(booksDto);
+    }
     var books = booksRepository.findAll();
     var booksDto = bookMapper.toBooksDto(books);
     return ResponseEntity.ok(booksDto);
