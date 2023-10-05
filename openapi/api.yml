@@ -95,7 +95,7 @@ paths:
     get:
       tags:
         - authors
-      summary: Retrieve information an Author
+      summary: Retrieve information about an Author
       operationId: getAuthorById
       parameters:
         - $ref: "#/components/parameters/authorId"
