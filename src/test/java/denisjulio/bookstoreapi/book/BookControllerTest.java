@@ -6,6 +6,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,16 +62,21 @@ class BookControllerTest {
     JSONAssert.assertEquals(lastBookJson, lastBookResJson, JSONCompareMode.STRICT);
   }
 
-  @Test
-  void whenGetBooksFilteredByGenreThenReturnAListOfFilteredBooks() throws Exception {
-    var res = mvc.perform(get("/books").queryParam("genre", "Genre 1"))
+  @ParameterizedTest
+  @CsvSource({
+          "Genre 1, 3, 4",
+          "Genre 2, 2, 3"
+  })
+  void whenGetBooksFilteredByGenreThenReturnAListOfFilteredBooks(String genre, int expectedListSize, int lastBookIndex) throws Exception {
+    var res = mvc.perform(get("/books").queryParam("genre", genre))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$").isArray())
-            .andExpect(jsonPath("$.length()").value(3))
+            .andExpect(jsonPath("$.length()").value(expectedListSize))
             .andReturn().getResponse().getContentAsString();
-    var lastBookJson = (JSONObject) booksJson.get(4);
-    var lastBookResJson = (JSONObject) new JSONArray(res).get(2);
+    var lastBookJson = (JSONObject) booksJson.get(lastBookIndex);
+    var booksJsonRes = new JSONArray(res);
+    var lastBookResJson = (JSONObject) booksJsonRes.get(booksJsonRes.length() - 1);
     JSONAssert.assertEquals(lastBookJson, lastBookResJson, JSONCompareMode.STRICT);
   }
 }
