@@ -2,11 +2,13 @@ package denisjulio.bookstoreapi.book;
 
 import denisjulio.bookstoreapi.api.BooksApi;
 import denisjulio.bookstoreapi.model.BookDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 public class BookController implements BooksApi {
 
@@ -21,6 +23,7 @@ public class BookController implements BooksApi {
   @Override
   public ResponseEntity<List<BookDto>> getBooks(String genre) {
     if (genre != null) {
+      log.debug("query string 'genre': {}", genre);
       var books = booksRepository.findBooksByGenresName(genre);
       var booksDto = bookMapper.toBooksDto(books);
       return ResponseEntity.ok(booksDto);

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,4 +80,23 @@ class BookControllerTest {
     var lastBookResJson = (JSONObject) booksJsonRes.get(booksJsonRes.length() - 1);
     JSONAssert.assertEquals(lastBookJson, lastBookResJson, JSONCompareMode.STRICT);
   }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"", " "})
+  void whenGenreIsBlankThenReturnBadRequest(String genre) throws Exception {
+    var res = mvc.perform(get("/books").queryParam("genre", genre))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON))
+            .andReturn().getResponse().getContentAsString();
+    var problemJson = """
+              {
+                "title": "Bad Request",
+                "status": 400,
+                "detail": "The request could not be understood or was missing required parameters."
+              }
+            """;
+    var problemResJson = new JSONObject(res);
+    JSONAssert.assertEquals(problemJson, problemResJson, JSONCompareMode.LENIENT);
+  }
 }
+
