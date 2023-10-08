@@ -1,86 +1,92 @@
+import static org.gradle.api.tasks.testing.logging.TestLogEvent.*
+
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.1.3'
-	id 'io.spring.dependency-management' version '1.1.3'
-	id "org.openapi.generator" version "6.6.0"
+    id 'java'
+    id 'org.springframework.boot' version '3.1.3'
+    id 'io.spring.dependency-management' version '1.1.3'
+    id "org.openapi.generator" version "6.6.0"
 }
 
 group = 'denisjulio'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '17'
+    sourceCompatibility = '17'
 }
 
 compileJava {
-	options.compilerArgs += [
-	        "-Amapstruct.defaultComponentModel=spring"
-	]
+    options.compilerArgs += [
+            "-Amapstruct.defaultComponentModel=spring"
+    ]
 }
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
-	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-hateoas'
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
 
-	implementation 'org.openapitools:jackson-databind-nullable:0.2.6'
-	implementation 'io.swagger.core.v3:swagger-annotations-jakarta:2.2.15'
+    implementation 'org.openapitools:jackson-databind-nullable:0.2.6'
+    implementation 'io.swagger.core.v3:swagger-annotations-jakarta:2.2.15'
 
-	runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly 'org.postgresql:postgresql'
 
-	compileOnly 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
 
-	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
-	annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+    annotationProcessor 'org.projectlombok:lombok'
 
-	testCompileOnly 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
 
-	testAnnotationProcessor 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
-	testImplementation 'org.testcontainers:junit-jupiter'
-	testImplementation 'org.testcontainers:postgresql'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:postgresql'
 }
 
 openApiGenerate {
-	inputSpec = "$rootDir/openapi/api.yml"
-	generatorName = "spring"
-	library = "spring-boot"
-	apiPackage = "denisjulio.bookstoreapi.api"
-	modelPackage = "denisjulio.bookstoreapi.model"
-	schemaMappings.put("ProblemDetail", "ProblemDetail")
-	schemaMappings.put("AuthorSubmissionData", "AuthorSubmissionData")
-	importMappings.put("ProblemDetail", "org.springframework.http.ProblemDetail")
-	importMappings.put("AuthorSubmissionData", "denisjulio.bookstoreapi.author.AuthorSubmissionData")
-	modelNameSuffix = "Dto"
-	configOptions.set([
-			interfaceOnly: "true",
-			dateLibrary: "java8",
-			useSpringBoot3: "true",
-			performBeanValidation: "true",
-			delegatePattern: "true"
-	])
+    inputSpec = "$rootDir/openapi/api.yml"
+    generatorName = "spring"
+    library = "spring-boot"
+    apiPackage = "denisjulio.bookstoreapi.api"
+    modelPackage = "denisjulio.bookstoreapi.model"
+    schemaMappings.put("ProblemDetail", "ProblemDetail")
+    schemaMappings.put("AuthorSubmissionData", "AuthorSubmissionData")
+    importMappings.put("ProblemDetail", "org.springframework.http.ProblemDetail")
+    importMappings.put("AuthorSubmissionData", "denisjulio.bookstoreapi.author.AuthorSubmissionData")
+    modelNameSuffix = "Dto"
+    configOptions.set([
+            interfaceOnly        : "true",
+            dateLibrary          : "java8",
+            useSpringBoot3       : "true",
+            performBeanValidation: "true",
+            delegatePattern      : "true"
+    ])
 }
 
 compileJava.dependsOn tasks.openApiGenerate
 sourceSets.main.java.srcDir "${openApiGenerate.outputDir.get()}/src/main/java"
 
-tasks.named('test') {
-	useJUnitPlatform()
+tasks.named('test', Test) {
+    useJUnitPlatform()
+    testLogging {
+        events = [PASSED, FAILED]
+        showStandardStreams = true
+    }
 }

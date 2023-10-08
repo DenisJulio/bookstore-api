@@ -24,6 +24,8 @@ public class BookController implements BooksApi {
   public ResponseEntity<List<BookDto>> getBooks(String genre) {
     if (genre != null) {
       log.debug("query string 'genre': {}", genre);
+      if (genre.isBlank())
+        throw new GenreParamNotAllowedException();
       var books = booksRepository.findBooksByGenresName(genre);
       var booksDto = bookMapper.toBooksDto(books);
       return ResponseEntity.ok(booksDto);
