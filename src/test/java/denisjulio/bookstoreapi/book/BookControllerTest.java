@@ -66,7 +66,8 @@ class BookControllerTest {
   @ParameterizedTest
   @CsvSource({
           "Genre 1, 3, 4",
-          "Genre 2, 2, 3"
+          "Genre 2, 2, 3",
+          "genre 1, 3, 4"
   })
   void whenGetBooksFilteredByGenreThenReturnAListOfFilteredBooks(String genre, int expectedListSize, int lastBookIndex) throws Exception {
     var res = mvc.perform(get("/books").queryParam("genre", genre))

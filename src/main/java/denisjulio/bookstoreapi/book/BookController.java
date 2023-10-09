@@ -26,7 +26,7 @@ public class BookController implements BooksApi {
       log.debug("query string 'genre': {}", genre);
       if (genre.isBlank())
         throw new GenreParamNotAllowedException();
-      var books = booksRepository.findBooksByGenresName(genre);
+      var books = booksRepository.findBooksByGenresNameIgnoreCase(genre);
       var booksDto = bookMapper.toBooksDto(books);
       return ResponseEntity.ok(booksDto);
     }
