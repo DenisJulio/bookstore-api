@@ -34,4 +34,12 @@ public class BookController implements BooksApi {
     var booksDto = bookMapper.toBooksDto(books);
     return ResponseEntity.ok(booksDto);
   }
+
+  @Override
+  public ResponseEntity<BookDto> getBookById(Integer bookId) {
+    return booksRepository.findById(bookId)
+            .map(bookMapper::toBookDto)
+            .map(ResponseEntity::ok)
+            .orElseThrow();
+  }
 }

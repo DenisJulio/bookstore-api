@@ -99,5 +99,16 @@ class BookControllerTest {
     var problemResJson = new JSONObject(res);
     JSONAssert.assertEquals(problemJson, problemResJson, JSONCompareMode.LENIENT);
   }
+
+  @Test
+  void whenGetBookByIdThenReturnTheCorrectBook() throws Exception {
+    var res = mvc.perform(get("/books/{bookId}", 3))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andReturn().getResponse().getContentAsString();
+    var bookJsonRes = new JSONObject(res);
+    var bookJson = (JSONObject) booksJson.get(2);
+    JSONAssert.assertEquals(bookJson, bookJsonRes, JSONCompareMode.STRICT);
+  }
 }
 
