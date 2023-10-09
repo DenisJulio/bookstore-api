@@ -86,7 +86,8 @@ sourceSets.main.java.srcDir "${openApiGenerate.outputDir.get()}/src/main/java"
 tasks.named('test', Test) {
     useJUnitPlatform()
     testLogging {
-        events = [PASSED, FAILED]
+        events = [FAILED]
         showStandardStreams = true
+        showStackTraces = true
     }
 }
