@@ -89,7 +89,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetail'
+                $ref: "#/components/schemas/ProblemDetail"
 
   /authors/{authorId}:
     get:
@@ -111,7 +111,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: '#/components/schemas/ProblemDetail'
+                $ref: "#/components/schemas/ProblemDetail"
   /authors/{authorId}/books:
     get:
       tags:
@@ -192,7 +192,7 @@ components:
         id:
           type: string
       allOf:
-        - $ref: '#/components/schemas/AuthorSubmissionData'
+        - $ref: "#/components/schemas/AuthorSubmissionData"
 
     AuthorSubmissionData:
       type: object

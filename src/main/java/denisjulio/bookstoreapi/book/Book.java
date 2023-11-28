@@ -43,16 +43,11 @@ public class Book {
   @Column(name = "number_of_pages")
   private Integer numberOfPages;
 
-
   @ManyToMany(cascade = {
-          CascadeType.PERSIST,
-          CascadeType.MERGE
+      CascadeType.PERSIST,
+      CascadeType.MERGE
   })
-  @JoinTable(
-          name = "books_genres",
-          joinColumns = @JoinColumn(name = "book_id"),
-          inverseJoinColumns = @JoinColumn(name = "genre_id")
-  )
+  @JoinTable(name = "books_genres", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "genre_id"))
   private Set<Genre> genres = new HashSet<>();
 
   public Book() {
@@ -130,8 +125,10 @@ public class Book {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (!(o instanceof Book book)) return false;
+    if (this == o)
+      return true;
+    if (!(o instanceof Book book))
+      return false;
     return this.id != null && Objects.equals(this.id, book.getId());
   }
 

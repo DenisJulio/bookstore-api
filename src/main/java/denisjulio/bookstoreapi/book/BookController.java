@@ -38,8 +38,8 @@ public class BookController implements BooksApi {
   @Override
   public ResponseEntity<BookDto> getBookById(Integer bookId) {
     return booksRepository.findById(bookId)
-            .map(bookMapper::toBookDto)
-            .map(ResponseEntity::ok)
-            .orElseThrow();
+        .map(bookMapper::toBookDto)
+        .map(ResponseEntity::ok)
+        .orElseThrow(() -> new BookNotFoundException(bookId));
   }
 }

@@ -25,8 +25,8 @@ public interface BookMapper {
 
   default List<String> mapGenres(Set<Genre> genres) {
     return genres.stream()
-            .map(Genre::getName)
-            .toList();
+        .map(Genre::getName)
+        .toList();
   }
 
   default int mapAuthor(Author author) {
