@@ -1,62 +1,82 @@
 [
   {
     "id": 1,
-    "title": "Book 1 by Author 1",
+    "title": "To Kill a Mockingbird",
     "authorId": 1,
-    "publicationDate": "2022-01-15",
-    "description": "Description of Book 1",
+    "publicationDate": "1960-07-11",
+    "description": "A novel by Harper Lee published in 1960.",
     "coverImageUrl": "https://bookcovers.com/cover1.jpg",
-    "numberOfPages": 300,
-    "genre": [
-      "Genre 1"
-    ]
+    "numberOfPages": 281,
+    "genre": ["Southern Gothic"]
   },
   {
     "id": 2,
-    "title": "Book 2 by Author 1",
-    "authorId": 1,
-    "publicationDate": "2020-06-30",
-    "description": "Description of Book 2",
+    "title": "1984",
+    "authorId": 2,
+    "publicationDate": "1949-06-08",
+    "description": "A dystopian novel by George Orwell.",
     "coverImageUrl": "https://bookcovers.com/cover2.jpg",
-    "numberOfPages": 250,
-    "genre": [
-      "Genre 2"
-    ]
+    "numberOfPages": 328,
+    "genre": ["Political fiction"]
   },
   {
     "id": 3,
-    "title": "Book 1 by Author 2",
-    "authorId": 2,
-    "publicationDate": "2019-03-25",
-    "description": "Description of Book 3",
+    "title": "Pride and Prejudice",
+    "authorId": 3,
+    "publicationDate": "1813-01-28",
+    "description": "A romantic novel of manners written by Jane Austen.",
     "coverImageUrl": "https://bookcovers.com/cover3.jpg",
-    "numberOfPages": 400,
-    "genre": [
-      "Genre 1"
-    ]
+    "numberOfPages": 279,
+    "genre": ["Romance"]
   },
   {
     "id": 4,
-    "title": "Book 2 by Author 2",
-    "authorId": 2,
-    "publicationDate": "2018-11-10",
-    "description": "Description of Book 4",
+    "title": "Moby Dick",
+    "authorId": 4,
+    "publicationDate": "1851-10-18",
+    "description": "A novel by Herman Melville about the voyage of the whaling ship Pequod.",
     "coverImageUrl": "https://bookcovers.com/cover4.jpg",
-    "numberOfPages": 350,
-    "genre": [
-      "Genre 2"
-    ]
+    "numberOfPages": 720,
+    "genre": ["Adventure"]
   },
   {
     "id": 5,
-    "title": "Book by Author 3",
-    "authorId": 3,
-    "publicationDate": "2021-09-05",
-    "description": "Description of Book 5",
+    "title": "War and Peace",
+    "authorId": 5,
+    "publicationDate": "1869-01-01",
+    "description": "A novel by Leo Tolstoy, detailing the history of the French invasion of Russia.",
     "coverImageUrl": "https://bookcovers.com/cover5.jpg",
-    "numberOfPages": 500,
-    "genre": [
-      "Genre 1"
-    ]
+    "numberOfPages": 1225,
+    "genre": ["Historical novel"]
+  },
+  {
+    "id": 6,
+    "title": "The Fellowship of the Ring",
+    "authorId": 6,
+    "publicationDate": "1954-07-29",
+    "description": "The first volume of The Lord of the Rings by J.R.R. Tolkien.",
+    "coverImageUrl": "https://bookcovers.com/cover6.jpg",
+    "numberOfPages": 423,
+    "genre": ["Fantasy", "Adventure"]
+  },
+  {
+    "id": 7,
+    "title": "The Two Towers",
+    "authorId": 6,
+    "publicationDate": "1954-11-11",
+    "description": "The second volume of The Lord of the Rings by J.R.R. Tolkien.",
+    "coverImageUrl": "https://bookcovers.com/cover7.jpg",
+    "numberOfPages": 352,
+    "genre": ["Fantasy", "Adventure"]
+  },
+  {
+    "id": 8,
+    "title": "The Return of the King",
+    "authorId": 6,
+    "publicationDate": "1955-10-20",
+    "description": "The third volume of The Lord of the Rings by J.R.R. Tolkien.",
+    "coverImageUrl": "https://bookcovers.com/cover8.jpg",
+    "numberOfPages": 416,
+    "genre": ["Fantasy", "Adventure"]
   }
 ]

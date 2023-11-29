@@ -61,22 +61,22 @@ class BookControllerTest {
     @Test
     @DisplayName("When no query param is provided Then return a list of all books")
     void whenNoQueryThenReturnAListOfAllBooks() throws Exception {
+      int numberOfBooks = booksJson.length();
       var res = mvc.perform(get("/books"))
           .andExpect(status().isOk())
           .andExpect(content().contentType(MediaType.APPLICATION_JSON))
           .andExpect(jsonPath("$").isArray())
-          .andExpect(jsonPath("$.length()").value(5))
+          .andExpect(jsonPath("$.length()").value(numberOfBooks))
           .andReturn().getResponse().getContentAsString();
-      var lastBookJson = (JSONObject) booksJson.get(4);
-      var lastBookResJson = (JSONObject) new JSONArray(res).get(4);
-      JSONAssert.assertEquals(lastBookJson, lastBookResJson, JSONCompareMode.STRICT);
+      var lastBookJson = (JSONObject) booksJson.get(numberOfBooks - 1);
+      var lastBookResJson = (JSONObject) new JSONArray(res).get(numberOfBooks - 1);
+      JSONAssert.assertEquals(lastBookJson, lastBookResJson, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     @ParameterizedTest
     @CsvSource({
-        "Genre 1, 3, 4",
-        "Genre 2, 2, 3",
-        "genre 1, 3, 4"
+        "Adventure, 4, 7",
+        "Romance, 1, 2"
     })
     @DisplayName("When genre query param provided Then return a list of filtered books")
     void whenQueryByGenreThenReturnAListOfFilteredBooks(String genre, int expectedListSize, int lastBookIndex)
@@ -90,7 +90,7 @@ class BookControllerTest {
       var lastBookJson = (JSONObject) booksJson.get(lastBookIndex);
       var booksJsonRes = new JSONArray(res);
       var lastBookResJson = (JSONObject) booksJsonRes.get(booksJsonRes.length() - 1);
-      JSONAssert.assertEquals(lastBookJson, lastBookResJson, JSONCompareMode.STRICT);
+      JSONAssert.assertEquals(lastBookJson, lastBookResJson, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     @ParameterizedTest

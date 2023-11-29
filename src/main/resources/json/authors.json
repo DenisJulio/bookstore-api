@@ -1,23 +1,44 @@
 [
   {
-    "id": "1",
-    "name": "Author 1",
-    "birthDate": "1990-05-15",
+    "id": 1,
+    "name": "Harper Lee",
+    "birthDate": "1926-04-28",
     "countryName": "USA",
-    "biography": "Author 1 biography"
+    "biography": "Harper Lee was an American novelist widely known for To Kill a Mockingbird, published in 1960."
   },
   {
-    "id": "2",
-    "name": "Author 2",
-    "birthDate": "1985-08-20",
+    "id": 2,
+    "name": "George Orwell",
+    "birthDate": "1903-06-25",
     "countryName": "UK",
-    "biography": "Author 2 biography"
+    "biography": "George Orwell was an English novelist, essayist, and critic most famous for his novels '1984' and 'Animal Farm'."
   },
   {
-    "id": "3",
-    "name": "Author 3",
-    "birthDate": "1978-03-10",
-    "countryName": "Canada",
-    "biography": "Author 3 biography"
+    "id": 3,
+    "name": "Jane Austen",
+    "birthDate": "1775-12-16",
+    "countryName": "UK",
+    "biography": "Jane Austen was an English novelist known primarily for her six major novels, which interpret, critique and comment upon the British landed gentry at the end of the 18th century."
+  },
+  {
+    "id": 4,
+    "name": "Herman Melville",
+    "birthDate": "1819-08-01",
+    "countryName": "USA",
+    "biography": "Herman Melville was an American novelist, short story writer, and poet. He is best known for his novel 'Moby-Dick' and his novella 'Billy Budd'."
+  },
+  {
+    "id": 5,
+    "name": "Leo Tolstoy",
+    "birthDate": "1828-09-09",
+    "countryName": "Russia",
+    "biography": "Leo Tolstoy was a Russian writer who is regarded as one of the greatest authors of all time. He is best known for his novels 'War and Peace' and 'Anna Karenina'."
+  },
+  {
+    "id": 6,
+    "name": "J.R.R. Tolkien",
+    "birthDate": "1892-01-03",
+    "countryName": "South Africa",
+    "biography": "J.R.R. Tolkien was an English writer, poet, philologist, and academic, best known as the author of the high fantasy works 'The Hobbit' and 'The Lord of the Rings'."
   }
 ]

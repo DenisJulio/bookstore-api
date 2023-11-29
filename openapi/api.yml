@@ -190,7 +190,7 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
       allOf:
         - $ref: "#/components/schemas/AuthorSubmissionData"
 
